@@ -318,7 +318,12 @@ class AuthService {
         message: 'Google Sign-In successful',
       };
     } catch (err: any) {
-      if (err.code === 'auth/popup-closed-by-user') {
+      if (err.code === 'auth/unauthorized-domain') {
+        return { 
+          success: false, 
+          message: 'Domain not authorized: Please add this deployment domain to Firebase Console -> Authentication -> Settings -> Authorized domains.' 
+        };
+      } else if (err.code === 'auth/popup-closed-by-user') {
         return { success: false, message: 'Google sign-in popup was closed.' };
       } else if (err.code === 'auth/popup-blocked') {
         return { success: false, message: 'Popup was blocked by your browser. Please allow popups for this site to sign in with Google.' };
