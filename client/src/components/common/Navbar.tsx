@@ -154,9 +154,9 @@ export const Navbar: React.FC = () => {
                   {/* Sign Out Button */}
                   <button
                     type="button"
-                    onClick={() => {
-                      logout();
-                      navigate('/');
+                    onClick={async () => {
+                      await logout();
+                      navigate('/', { replace: true });
                     }}
                     className="ml-1 px-3 py-1.5 text-xs font-semibold text-[#617580] hover:text-[#C73540] hover:bg-[#FFF2F2] border border-transparent hover:border-[#C73540]/20 rounded-lg transition-all"
                     title="Sign Out"
@@ -222,10 +222,10 @@ export const Navbar: React.FC = () => {
                   </Link>
                   <button
                     type="button"
-                    onClick={() => {
+                    onClick={async () => {
                       setMobileMenuOpen(false);
-                      logout();
-                      navigate('/');
+                      await logout();
+                      navigate('/', { replace: true });
                     }}
                     className="text-xs font-semibold text-[#C73540] hover:underline"
                   >

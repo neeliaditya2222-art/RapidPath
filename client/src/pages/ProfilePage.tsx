@@ -521,9 +521,9 @@ export const ProfilePage: React.FC = () => {
           variant="secondary"
           size="lg"
           leftIcon={<LogOut className="w-4 h-4 text-[#C73540]" />}
-          onClick={() => {
-            logout();
-            navigate('/');
+          onClick={async () => {
+            await logout();
+            navigate('/', { replace: true });
           }}
           className="w-full sm:w-auto font-bold text-sm text-[#C73540] border-[#C73540]/30 hover:bg-[#FFF2F2] hover:border-[#C73540] shadow-xs"
         >

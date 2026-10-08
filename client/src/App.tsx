@@ -6,6 +6,8 @@ import { DisclaimerBanner } from './components/common/DisclaimerBanner';
 import { Footer } from './components/common/Footer';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
 
+import { ProtectedRoute } from './components/common/ProtectedRoute';
+
 // Pages
 import { LandingPage } from './pages/LandingPage';
 import { DashboardPage } from './pages/DashboardPage';
@@ -43,11 +45,46 @@ export const App: React.FC = () => {
               <Routes>
                 <Route path="/" element={<LandingPage />} />
                 <Route path="/login" element={<LoginPage />} />
-                <Route path="/dashboard" element={<DashboardPage />} />
-                <Route path="/route" element={<RoutePage />} />
-                <Route path="/history" element={<HistoryPage />} />
-                <Route path="/settings" element={<SettingsPage />} />
-                <Route path="/profile" element={<ProfilePage />} />
+                <Route
+                  path="/dashboard"
+                  element={
+                    <ProtectedRoute>
+                      <DashboardPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/route"
+                  element={
+                    <ProtectedRoute>
+                      <RoutePage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/history"
+                  element={
+                    <ProtectedRoute>
+                      <HistoryPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/settings"
+                  element={
+                    <ProtectedRoute>
+                      <SettingsPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/profile"
+                  element={
+                    <ProtectedRoute>
+                      <ProfilePage />
+                    </ProtectedRoute>
+                  }
+                />
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>
