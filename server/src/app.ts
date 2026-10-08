@@ -23,6 +23,8 @@ export function createApp(): Express {
         if (!origin) return callback(null, true);
         const allowedOrigins = [
           config.frontendUrl,
+          'https://rapidpath-bff9c.web.app',
+          'https://rapidpath-bff9c.firebaseapp.com',
           'http://localhost:5173',
           'http://localhost:3000',
           'http://127.0.0.1:5173',
