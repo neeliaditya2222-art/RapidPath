@@ -86,7 +86,7 @@ export const Navbar: React.FC = () => {
                       Rapid<span className="text-[#007F86]">Path</span>
                     </span>
                   </div>
-                  <span className="text-[10px] text-[#617580] tracking-tight block -mt-1 font-medium">
+                  <span className="text-[10px] text-[#617580] tracking-tight block -mt-1 font-medium hidden sm:block">
                     Every Second. Every Route. Every Life.
                   </span>
                 </div>
@@ -175,11 +175,22 @@ export const Navbar: React.FC = () => {
             </div>
 
             {/* Mobile Menu Button */}
-            <div className="flex md:hidden">
+            <div className="flex md:hidden items-center gap-2">
+              {isAuthenticated && (
+                <button
+                  type="button"
+                  onClick={() => setStatusModalOpen(true)}
+                  className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-[#E8F5ED] text-[#24735B] border border-[#24735B]/20 text-[10px] font-bold"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#24735B] animate-pulse" />
+                  <span>LIVE</span>
+                </button>
+              )}
               <button
                 type="button"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="p-2 rounded-lg text-[#617580] hover:text-[#112B37] hover:bg-[#F2F5F6]"
+                aria-label="Toggle navigation menu"
               >
                 {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
@@ -189,7 +200,7 @@ export const Navbar: React.FC = () => {
 
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-white border-t border-[#DCE5E9] px-4 pt-2 pb-4 space-y-1">
+          <div className="md:hidden bg-white border-t border-[#DCE5E9] px-4 pt-2 pb-4 space-y-1 animate-fadeIn">
             {isAuthenticated ? (
               <>
                 {navLinks.map((link) => {

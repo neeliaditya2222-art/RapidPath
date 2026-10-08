@@ -42,26 +42,26 @@ export const RecommendedRouteCard: React.FC<RecommendedRouteCardProps> = ({
     <Card className="p-6 bg-white border-2 border-[#007F86] shadow-card space-y-6 relative overflow-hidden">
       {/* Top Header & Recommended Badge */}
       <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[#DCE5E9]">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg bg-[#E1F2F1] text-[#007F86] flex items-center justify-center font-bold text-sm">
+        <div className="flex items-start sm:items-center gap-3 min-w-0 flex-1">
+          <div className="w-9 h-9 rounded-lg bg-[#E1F2F1] text-[#007F86] flex items-center justify-center font-bold text-sm shrink-0">
             {routeLetter}
           </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <h3 className="text-xl font-bold text-[#112B37]">{route.name}</h3>
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#E8F5ED] text-[#24735B] border border-[#24735B]/20 flex items-center gap-1">
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-2 flex-wrap">
+              <h3 className="text-base sm:text-xl font-bold text-[#112B37] truncate">{route.name}</h3>
+              <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#E8F5ED] text-[#24735B] border border-[#24735B]/20 flex items-center gap-1 shrink-0">
                 <CheckCircle2 className="w-3.5 h-3.5" />
                 AI Recommended
               </span>
             </div>
-            <p className="text-xs text-[#617580] mt-0.5">
+            <p className="text-xs text-[#617580] mt-0.5 truncate">
               {route.summary || 'Optimized Arterial Emergency Corridor'}
             </p>
           </div>
         </div>
 
         {/* AI Prediction Tag */}
-        <div className="flex items-center gap-1.5 bg-[#E1F2F1] text-[#007F86] px-3 py-1 rounded-full text-xs font-semibold">
+        <div className="flex items-center gap-1.5 bg-[#E1F2F1] text-[#007F86] px-3 py-1 rounded-full text-xs font-semibold shrink-0">
           <Sparkles className="w-3.5 h-3.5" />
           <span>AI Estimation • {confidence}% Confidence</span>
         </div>

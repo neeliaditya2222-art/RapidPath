@@ -66,11 +66,11 @@ export const GetDirectionsCard: React.FC<GetDirectionsCardProps> = ({
         </div>
       )}
 
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
         {/* Left Side: Navigation Icon & Get Directions Action Button */}
         <div className="flex items-center gap-3">
           {/* Small teal rounded-square icon container */}
-          <div className="w-11 h-11 rounded-lg bg-[#E1F2F1] text-[#007F86] flex items-center justify-center shrink-0 border border-[#007F86]/20 shadow-xs">
+          <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-lg bg-[#E1F2F1] text-[#007F86] flex items-center justify-center shrink-0 border border-[#007F86]/20 shadow-xs">
             <Navigation className="w-5 h-5 text-[#007F86] fill-[#007F86]/20" />
           </div>
 
@@ -80,12 +80,12 @@ export const GetDirectionsCard: React.FC<GetDirectionsCardProps> = ({
             size="md"
             variant="primary"
             onClick={handleGetDirections}
-            className="text-sm sm:text-base font-bold px-6 py-2.5 bg-[#007F86] hover:bg-[#006B70] shadow-sm rounded-lg"
+            className="text-sm sm:text-base font-bold px-4 sm:px-6 py-2.5 bg-[#007F86] hover:bg-[#006B70] shadow-sm rounded-lg flex-1 sm:flex-initial"
           >
             Get Directions
           </Button>
 
-          {/* External-link text */}
+          {/* External-link text (Desktop) */}
           <div className="hidden sm:flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-[#112B37] pl-1">
             <ExternalLink className="w-4 h-4 text-[#007F86]" />
             <span>Open this route in Google Maps</span>
@@ -94,21 +94,21 @@ export const GetDirectionsCard: React.FC<GetDirectionsCardProps> = ({
 
         {/* Selected corridor indicator if route is active */}
         {selectedRoute && (
-          <div className="flex items-center gap-1.5 self-start sm:self-auto px-2.5 py-1 rounded-full bg-[#E8F5ED] text-[#24735B] text-xs font-bold border border-[#24735B]/20">
-            <CheckCircle2 className="w-3.5 h-3.5" />
-            <span>{selectedRoute.name} Active</span>
+          <div className="flex items-center gap-1.5 self-start sm:self-auto px-2.5 py-1 rounded-full bg-[#E8F5ED] text-[#24735B] text-xs font-bold border border-[#24735B]/20 max-w-full">
+            <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+            <span className="truncate max-w-[200px] sm:max-w-none">{selectedRoute.name} Active</span>
           </div>
         )}
       </div>
 
       {/* Mobile-only secondary label */}
       <div className="sm:hidden flex items-center gap-1.5 text-xs font-semibold text-[#112B37] pt-1">
-        <ExternalLink className="w-3.5 h-3.5 text-[#007F86]" />
-        <span>Open this route in Google Maps</span>
+        <ExternalLink className="w-3.5 h-3.5 text-[#007F86] shrink-0" />
+        <span className="truncate">Open this route in Google Maps</span>
       </div>
 
       {/* Helper text below controls */}
-      <p className="text-xs text-[#617580] pt-1 border-t border-[#DCE5E9]/60">
+      <p className="text-[11px] sm:text-xs text-[#617580] pt-1 border-t border-[#DCE5E9]/60">
         Click to open the selected route in Google Maps for turn-by-turn directions.
       </p>
     </Card>

@@ -360,8 +360,8 @@ export const EmergencyGoogleMap: React.FC<EmergencyGoogleMapProps> = ({
         </button>
       </div>
 
-      {/* Floating Map Legend */}
-      <div className="absolute bottom-4 left-4 z-[10] bg-white/95 border border-[#DCE5E9] backdrop-blur-sm px-3.5 py-2.5 rounded-lg text-xs shadow-sm flex flex-col gap-1.5 font-medium">
+      {/* Floating Map Legend (Desktop: Full, Mobile: Compact pill) */}
+      <div className="hidden sm:flex absolute bottom-4 left-4 z-[10] bg-white/95 border border-[#DCE5E9] backdrop-blur-sm px-3.5 py-2.5 rounded-lg text-xs shadow-sm flex-col gap-1.5 font-medium pointer-events-auto">
         <div className="flex items-center gap-2">
           <span className="w-3.5 h-1.5 bg-[#007F86] rounded-full" />
           <span className="text-[#112B37] font-semibold">AI Recommended Corridor</span>
@@ -382,6 +382,12 @@ export const EmergencyGoogleMap: React.FC<EmergencyGoogleMapProps> = ({
           <span className="w-2.5 h-2.5 bg-[#97610A] rounded-sm rotate-45" />
           <span className="text-[#617580]">Potential Hazard</span>
         </div>
+      </div>
+
+      {/* Mobile-Friendly Compact Badge */}
+      <div className="sm:hidden absolute bottom-3 left-3 z-[10] bg-white/95 backdrop-blur-xs px-2.5 py-1.5 rounded-lg text-[10px] font-bold border border-[#DCE5E9] shadow-xs text-[#112B37] flex items-center gap-2">
+        <span className="inline-block w-2.5 h-1 bg-[#007F86] rounded-full" />
+        <span>AI Corridor Active</span>
       </div>
 
       {/* Google Map Container */}

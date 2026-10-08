@@ -304,7 +304,7 @@ export const DashboardPage: React.FC = () => {
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 w-full sm:w-auto">
           {lastRefreshTime && (
             <span className="text-[11px] text-[#617580] font-medium hidden sm:inline">
               Updated {lastRefreshTime.toLocaleTimeString()}
@@ -332,7 +332,7 @@ export const DashboardPage: React.FC = () => {
             }}
             disabled={!activeDestinationRef.current || isLoading}
             leftIcon={<RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />}
-            className="text-xs"
+            className="text-xs w-full sm:w-auto justify-center"
           >
             Refresh Route & Traffic
           </Button>
@@ -401,7 +401,7 @@ export const DashboardPage: React.FC = () => {
             selectedRouteIndex={selectedRouteIndex}
             onSelectRoute={(idx) => setSelectedRouteIndex(idx)}
             onSelectHospital={handleHospitalSelect}
-            className="h-[460px] w-full rounded-xl"
+            className="h-[380px] sm:h-[460px] w-full rounded-xl"
           />
 
           {/* NEW FEATURE: Get Directions (Open Selected Route in Google Maps) */}

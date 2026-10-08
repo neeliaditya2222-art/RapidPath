@@ -206,7 +206,7 @@ export const LoginPage: React.FC = () => {
       <div className="w-full max-w-5xl bg-white rounded-2xl shadow-elevated border border-[#DCE5E9] overflow-hidden flex flex-col lg:flex-row">
         
         {/* LEFT COLUMN: Branded RapidPath Visual Showcase (Desktop & Tablet) */}
-        <div className="w-full lg:w-1/2 p-8 sm:p-10 lg:p-12 bg-gradient-to-br from-[#102E3C] via-[#0D2430] to-[#06141B] text-white flex flex-col justify-between relative overflow-hidden">
+        <div className="w-full lg:w-1/2 p-5 sm:p-8 lg:p-12 bg-gradient-to-br from-[#102E3C] via-[#0D2430] to-[#06141B] text-white flex flex-col justify-between relative overflow-hidden">
           {/* Subtle Ambient Route Line Backdrops */}
           <div className="absolute inset-0 pointer-events-none opacity-15">
             <svg className="w-full h-full" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -219,62 +219,62 @@ export const LoginPage: React.FC = () => {
           </div>
 
           {/* Top Brand Header */}
-          <div className="relative z-10 space-y-3">
+          <div className="relative z-10 space-y-2 sm:space-y-3">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-[#007F86] flex items-center justify-center text-white shadow-md">
-                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#007F86] flex items-center justify-center text-white shadow-md">
+                <svg className="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M4 19L12 4l8 15" />
                   <path d="M12 9v6" />
                   <circle cx="12" cy="18" r="1" fill="currentColor" />
                 </svg>
               </div>
               <div>
-                <span className="text-xl font-bold tracking-tight text-white">
+                <span className="text-lg sm:text-xl font-bold tracking-tight text-white">
                   Rapid<span className="text-[#007F86]">Path</span>
                 </span>
-                <span className="text-[11px] text-[#A2B6C0] block -mt-1 font-medium">
+                <span className="text-[10px] sm:text-[11px] text-[#A2B6C0] block -mt-1 font-medium">
                   Every Second. Every Route. Every Life.
                 </span>
               </div>
             </div>
 
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1A3D4E] text-[#007F86] text-xs font-semibold border border-[#007F86]/30">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-[#1A3D4E] text-[#007F86] text-[11px] sm:text-xs font-semibold border border-[#007F86]/30">
               <span className="w-2 h-2 rounded-full bg-[#007F86] animate-pulse" />
               <span>Firebase Cloud Authentication</span>
             </div>
           </div>
 
           {/* Center Value Proposition & Visual Graphic */}
-          <div className="relative z-10 py-8 space-y-6">
-            <div className="space-y-3">
-              <h2 className="text-2xl sm:text-3xl font-black text-white leading-tight tracking-tight">
+          <div className="relative z-10 py-4 sm:py-8 space-y-4 sm:space-y-6">
+            <div className="space-y-2 sm:space-y-3">
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-black text-white leading-tight tracking-tight">
                 Mission-Critical Emergency Corridor Intelligence
               </h2>
-              <p className="text-xs sm:text-sm text-[#A2B6C0] leading-relaxed">
+              <p className="text-xs sm:text-sm text-[#A2B6C0] leading-relaxed hidden sm:block">
                 Intelligent emergency routing designed to help teams find the safest and fastest corridor when every second matters.
               </p>
             </div>
 
             {/* Tactical Live Metrics Row */}
-            <div className="grid grid-cols-2 gap-3 pt-2">
-              <div className="p-3.5 rounded-xl bg-[#0A1E27]/80 border border-[#1A4254] backdrop-blur-xs">
-                <span className="text-[11px] text-[#A2B6C0] font-medium block">Route Reliability</span>
-                <span className="text-lg font-black text-[#007F86] mt-0.5 block">99.98%</span>
-                <span className="text-[10px] text-[#A2B6C0]">Zero signal bottlenecks</span>
+            <div className="grid grid-cols-2 gap-2 sm:gap-3 pt-1">
+              <div className="p-2.5 sm:p-3.5 rounded-xl bg-[#0A1E27]/80 border border-[#1A4254] backdrop-blur-xs">
+                <span className="text-[10px] sm:text-[11px] text-[#A2B6C0] font-medium block">Route Reliability</span>
+                <span className="text-base sm:text-lg font-black text-[#007F86] mt-0.5 block">99.98%</span>
+                <span className="text-[9px] sm:text-[10px] text-[#A2B6C0] hidden xs:inline">Zero signal bottlenecks</span>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-[#0A1E27]/80 border border-[#1A4254] backdrop-blur-xs">
-                <span className="text-[11px] text-[#A2B6C0] font-medium block">Live Telemetry Sync</span>
-                <span className="text-lg font-black text-white mt-0.5 block">&lt;150ms</span>
-                <span className="text-[10px] text-[#A2B6C0]">Continuous GPS tracking</span>
+              <div className="p-2.5 sm:p-3.5 rounded-xl bg-[#0A1E27]/80 border border-[#1A4254] backdrop-blur-xs">
+                <span className="text-[10px] sm:text-[11px] text-[#A2B6C0] font-medium block">Live Telemetry Sync</span>
+                <span className="text-base sm:text-lg font-black text-white mt-0.5 block">&lt;150ms</span>
+                <span className="text-[9px] sm:text-[10px] text-[#A2B6C0] hidden xs:inline">Continuous GPS tracking</span>
               </div>
             </div>
           </div>
 
           {/* Bottom Security Assurance */}
-          <div className="relative z-10 pt-4 border-t border-[#1A4254] flex items-center justify-between text-[11px] text-[#A2B6C0]">
+          <div className="relative z-10 pt-3 sm:pt-4 border-t border-[#1A4254] flex items-center justify-between text-[10px] sm:text-[11px] text-[#A2B6C0]">
             <div className="flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4 text-[#007F86]" />
+              <ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#007F86]" />
               <span>Google Firebase Auth 256-Bit</span>
             </div>
             <span>v2.4 Enterprise</span>
@@ -282,7 +282,7 @@ export const LoginPage: React.FC = () => {
         </div>
 
         {/* RIGHT COLUMN: Production-Grade Login Form */}
-        <div className="w-full lg:w-1/2 p-8 sm:p-10 lg:p-12 flex flex-col justify-center bg-white">
+        <div className="w-full lg:w-1/2 p-5 sm:p-8 lg:p-12 flex flex-col justify-center bg-white">
           <div className="max-w-md w-full mx-auto space-y-6">
             
             {/* Form Header */}

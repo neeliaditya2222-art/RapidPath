@@ -291,8 +291,8 @@ export const RoutePage: React.FC = () => {
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Top Header & Route Selection Tabs */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#DCE5E9]">
-        <div className="space-y-1">
-          <div className="flex items-center gap-3">
+        <div className="space-y-1 min-w-0">
+          <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
             <Link
               to="/dashboard"
               className="text-[#617580] hover:text-[#112B37] p-1.5 rounded-lg hover:bg-[#F2F5F6] transition-colors"
@@ -300,18 +300,18 @@ export const RoutePage: React.FC = () => {
             >
               <ArrowLeft className="w-5 h-5" />
             </Link>
-            <h1 className="text-2xl font-black text-[#112B37]">{current.name}</h1>
+            <h1 className="text-xl sm:text-2xl font-black text-[#112B37]">{current.name}</h1>
             <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold border ${current.badgeClass}`}>
               {current.badge}
             </span>
           </div>
-          <p className="text-xs text-[#617580] ml-9">
+          <p className="text-xs text-[#617580] pl-8 sm:pl-9 truncate">
             {current.origin} → <strong className="text-[#112B37]">{current.destination}</strong>
           </p>
         </div>
 
         {/* Dynamic Route A / Route B / Route C Selector Buttons matching AI Recommendations */}
-        <div className="flex items-center gap-1.5 bg-[#F2F5F6] p-1 rounded-xl border border-[#DCE5E9]">
+        <div className="flex items-center gap-1.5 bg-[#F2F5F6] p-1 rounded-xl border border-[#DCE5E9] self-start sm:self-auto overflow-x-auto max-w-full">
           {(['A', 'B', 'C'] as const).map((letter) => {
             const r = routesData[letter];
             if (!r) return null;
@@ -322,7 +322,7 @@ export const RoutePage: React.FC = () => {
                 key={letter}
                 type="button"
                 onClick={() => setActiveRouteLetter(letter)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 ${
                   isSelected
                     ? isRec
                       ? 'bg-[#007F86] text-white shadow-sm'
@@ -333,7 +333,7 @@ export const RoutePage: React.FC = () => {
                 }`}
               >
                 <span>Route {letter}</span>
-                <span className="text-[10px] opacity-90 font-semibold">
+                <span className="text-[10px] opacity-90 font-semibold hidden sm:inline">
                   ({isRec ? 'AI Recommended' : r.badge})
                 </span>
               </button>
