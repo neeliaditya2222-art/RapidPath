@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-light-gray text-ink font-sans antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  /* Custom Clean Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #F2F5F6;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #DCE5E9;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #617580;
+  }
+}
+
+/* Leaflet Map Clean Clinical Overrides */
+.leaflet-container {
+  background-color: #EDF1F0 !important;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+}
+
+.leaflet-bar {
+  border: 1px solid #DCE5E9 !important;
+  border-radius: 8px !important;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(17, 43, 55, 0.08) !important;
+}
+
+.leaflet-bar a {
+  background-color: #FFFFFF !important;
+  border-bottom: 1px solid #DCE5E9 !important;
+  color: #102E3C !important;
+}
+
+.leaflet-bar a:hover {
+  background-color: #F2F5F6 !important;
+  color: #007F86 !important;
+}
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: #FFFFFF !important;
+  color: #112B37 !important;
+  border: 1px solid #DCE5E9 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 25px -5px rgba(17, 43, 55, 0.12) !important;
+}
+
+.leaflet-popup-content {
+  margin: 10px 14px !important;
+  line-height: 1.4 !important;
+}
+
+/* Pulsing route beacon */
+@keyframes routePulse {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+.animate-route-pulse {
+  animation: routePulse 2s ease-in-out infinite;
+}
+
+.leaflet-control-attribution {
+  display: none !important;
+}

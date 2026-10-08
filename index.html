@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RapidPath — AI-Powered Emergency Vehicle Route Optimization</title>
+  <meta name="description" content="Mission-critical emergency vehicle routing system powered by OpenStreetMap, OSRM, and AI. Real-time traffic, deterministic risk scoring, and intelligent life-saving route recommendations." />
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  
+  <!-- Custom RapidPath Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Header / Navigation Bar -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand-group">
+        <div class="brand-logo">
+          <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+          </svg>
+        </div>
+        <div>
+          <div class="brand-title-wrap">
+            <h1 class="brand-title">RapidPath</h1>
+            <span class="badge-eoc">EOC Live</span>
+          </div>
+          <p class="brand-tagline">Every Second. Every Route. Every Life.</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div class="telemetry-pill">
+          <span class="pulse-dot"></span>
+          <span class="telemetry-label">OSRM & OpenStreetMap Active</span>
+        </div>
+        <div class="clock-pill" id="live-clock">12:45:00 UTC</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Emergency Dispatch Alert Banner -->
+  <div class="active-emergency-banner">
+    <div class="banner-inner">
+      <div class="banner-left">
+        <span class="alert-icon-wrap">⚡</span>
+        <div>
+          <span class="banner-headline">ACTIVE EMERGENCY PRIORITY CORRIDOR</span>
+          <p class="banner-sub">Dynamic arterial optimization active • Zero Google billing required</p>
+        </div>
+      </div>
+      <div class="banner-right">
+        <span class="badge-critical">Critical Level 1</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Grid Layout -->
+  <main class="main-layout">
+    <!-- Left Column: Form & Telemetry Controls -->
+    <aside class="left-sidebar">
+      <!-- Route Configuration Card -->
+      <section class="card form-card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">New Emergency Route</h2>
+            <p class="card-subtitle">Configure origin & destination for smart corridor analysis</p>
+          </div>
+          <span class="badge-pill-success">EOC Ready</span>
+        </div>
+
+        <form id="emergency-route-form" class="route-form">
+          <!-- Starting Location -->
+          <div class="form-group">
+            <div class="label-row">
+              <label for="origin-input">Starting Location</label>
+              <span class="label-tag" id="origin-gps-tag">Nominatim Search</span>
+            </div>
+            <div class="input-wrap">
+              <span class="input-icon origin-icon">📍</span>
+              <input
+                type="text"
+                id="origin-input"
+                name="originAddress"
+                placeholder="Search origin address or landmark..."
+                value="Secunderabad Railway Station, Hyderabad"
+                autocomplete="off"
+                required
+              />
+              <div id="origin-suggestions" class="autocomplete-dropdown hidden"></div>
+            </div>
+          </div>
+
+          <!-- Emergency Destination -->
+          <div class="form-group">
+            <div class="label-row">
+              <label for="destination-input">Emergency Destination</label>
+              <span class="label-tag" id="destination-gps-tag">Nominatim Search</span>
+            </div>
+            <div class="input-wrap">
+              <span class="input-icon dest-icon">🎯</span>
+              <input
+                type="text"
+                id="destination-input"
+                name="destinationAddress"
+                placeholder="Search hospital or destination..."
+                value="Apollo Hospital, Jubilee Hills, Hyderabad"
+                autocomplete="off"
+                required
+              />
+              <div id="destination-suggestions" class="autocomplete-dropdown hidden"></div>
+            </div>
+          </div>
+
+          <!-- Vehicle Class Selector -->
+          <div class="form-group">
+            <label for="vehicle-select">Vehicle Class</label>
+            <select id="vehicle-select" name="vehicleType">
+              <option value="ambulance" selected>Ambulance (Code 3 Siren Priority)</option>
+              <option value="fire_engine">Fire Engine (Heavy Apparatus)</option>
+              <option value="police">Police Interceptor</option>
+              <option value="rescue">Heavy Rescue Unit</option>
+              <option value="other">Other Emergency Vehicle</option>
+            </select>
+          </div>
+
+          <!-- Emergency Priority Buttons -->
+          <div class="form-group">
+            <label>Emergency Priority</label>
+            <div class="priority-grid" id="priority-selector">
+              <button type="button" class="priority-btn active critical" data-priority="critical">
+                <span class="p-dot"></span> Critical
+              </button>
+              <button type="button" class="priority-btn high" data-priority="high">
+                <span class="p-dot"></span> High
+              </button>
+              <button type="button" class="priority-btn medium" data-priority="medium">
+                <span class="p-dot"></span> Medium
+              </button>
+              <button type="button" class="priority-btn low" data-priority="low">
+                <span class="p-dot"></span> Low
+              </button>
+            </div>
+          </div>
+
+          <!-- Incident Type Selector -->
+          <div class="form-group">
+            <label for="incident-select">Incident Type</label>
+            <select id="incident-select" name="incidentType">
+              <option value="medical" selected>Medical Emergency (Code 3 Trauma)</option>
+              <option value="cardiac">Cardiac Arrest</option>
+              <option value="trauma">Major Traffic Collision</option>
+              <option value="structure_fire">Structure Fire Response</option>
+              <option value="hazmat">Hazardous Materials Incident</option>
+            </select>
+          </div>
+
+          <!-- Progress Loading Sequence -->
+          <div id="loading-sequence" class="loading-box hidden">
+            <div class="loading-header">
+              <span class="loading-title">⚡ Analyzing Emergency Corridors...</span>
+              <span id="loading-pct" class="loading-pct">25%</span>
+            </div>
+            <div class="loading-step-row">
+              <span class="loading-spinner"></span>
+              <span id="loading-step-text" class="loading-step-text">Geocoding locations with OpenStreetMap...</span>
+            </div>
+          </div>
+
+          <!-- In-UI Message / Error Box -->
+          <div id="ui-message-box" class="ui-message-box hidden"></div>
+
+          <!-- CTA Button -->
+          <button type="submit" id="analyze-btn" class="btn-primary">
+            Analyze Routes
+          </button>
+        </form>
+      </section>
+
+      <!-- AI Delay & Risk Prediction Card -->
+      <section class="card ai-card">
+        <div class="ai-card-header">
+          <h3 class="ai-card-title">✨ AI Delay & Risk Estimation</h3>
+          <span class="ai-badge">AI Analysis</span>
+        </div>
+        <div class="ai-metric-row">
+          <div>
+            <div class="ai-delay-val"><span id="ai-delay-num">+1</span> <span class="ai-delay-unit">min</span></div>
+            <p class="ai-disclaimer">AI-estimated potential delay based on available route and traffic conditions.</p>
+          </div>
+          <div class="ai-confidence-box">
+            <span class="ai-confidence-val" id="ai-confidence-num">92%</span>
+            <span class="ai-confidence-lbl">Confidence</span>
+          </div>
+        </div>
+        <div class="ai-factors-box">
+          <span class="ai-factors-title">AI Assessment Factors:</span>
+          <ul class="ai-factors-list" id="ai-factors-list">
+            <li>✓ Outer perimeter bypass avoids dense city core signals</li>
+            <li>✓ High corridor reliability index for heavy apparatus</li>
+            <li>✓ No major roadblock incidents on arterial route</li>
+          </ul>
+        </div>
+      </section>
+    </aside>
+
+    <!-- Right Column: Interactive Map & Route Intelligence Cards -->
+    <section class="content-area">
+      <!-- Leaflet Map Container with Legend & Controls -->
+      <div class="map-card-wrapper">
+        <div class="map-top-bar">
+          <div class="map-badge-info">
+            <span class="status-indicator"></span>
+            <span>Live Road Routing (OSRM + OpenStreetMap)</span>
+          </div>
+          <div class="map-controls-group">
+            <button type="button" id="btn-fit-bounds" class="map-btn" title="Fit to route bounds">Fit Route</button>
+            <button type="button" id="btn-toggle-tiles" class="map-btn" title="Toggle tile layer">OSM Tiles</button>
+          </div>
+        </div>
+
+        <div id="leaflet-map" class="map-viewport"></div>
+
+        <!-- Custom RapidPath Map Legend -->
+        <div class="map-legend">
+          <div class="legend-item">
+            <span class="legend-bar legend-recommended"></span>
+            <span class="legend-text font-bold">AI Recommended (Route B)</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-bar legend-alternative"></span>
+            <span class="legend-text">Alternative Routes</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-icon-hazard">!</span>
+            <span class="legend-text">Potential Hazard</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-icon-dest">+</span>
+            <span class="legend-text">Destination</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recommended Route Highlight Card -->
+      <section class="card recommended-route-card" id="recommended-card">
+        <div class="rec-header">
+          <div class="rec-brand-badge">
+            <div class="route-letter-avatar" id="rec-letter">B</div>
+            <div>
+              <div class="rec-title-row">
+                <h3 class="rec-title" id="rec-route-name">Route B (Outer Perimeter Bypass)</h3>
+                <span class="badge-recommended">✓ AI Recommended</span>
+              </div>
+              <p class="rec-summary" id="rec-summary-text">
+                Outer Perimeter Arterial Bypass via Ring Road
+              </p>
+            </div>
+          </div>
+          <div class="rec-ai-tag">
+            <span>✨ AI Recommendation • <span id="rec-confidence">92%</span> Confidence</span>
+          </div>
+        </div>
+
+        <!-- Metric Numbers Grid -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <span class="metric-label">Estimated Arrival</span>
+            <div class="metric-val-row">
+              <span class="metric-big-num" id="rec-eta-num">11</span>
+              <span class="metric-unit">min</span>
+            </div>
+            <span class="metric-sub" id="rec-distance-num">6.4 km</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-label">Traffic Flow</span>
+            <span class="badge-traffic-low" id="rec-traffic-badge">LOW</span>
+            <span class="metric-sub">Light flow</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-label">Predicted Delay</span>
+            <span class="delay-green" id="rec-delay-num">+1 min</span>
+            <span class="metric-sub">Negligible hold</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-label">Corridor Reliability</span>
+            <span class="badge-traffic-low" id="rec-risk-badge">LOW RISK</span>
+            <span class="metric-sub">Reliability: <span id="rec-reliability-num">96%</span></span>
+          </div>
+        </div>
+
+        <!-- AI Why RapidPath Recommends This Route -->
+        <div class="rec-explanation-box">
+          <h4 class="rec-exp-title">ℹ️ Why RapidPath recommends this route</h4>
+          <p class="rec-exp-desc" id="rec-explanation-text">
+            Route B is recommended because it currently has lower congestion and fewer potential delay indicators than the alternatives.
+          </p>
+          <div class="rec-chips-row" id="rec-chips-row">
+            <span class="rec-chip">✓ Lower congestion</span>
+            <span class="rec-chip">✓ Low delay risk</span>
+            <span class="rec-chip">✓ High corridor reliability (96%)</span>
+          </div>
+        </div>
+
+        <!-- Concept Callout: Fastest != Most Reliable -->
+        <div class="callout-box">
+          <div class="callout-header">
+            <span>❓ Why not the fastest route? (Fastest ≠ Best)</span>
+          </div>
+          <p class="callout-desc">
+            Route A is shorter (9 min), but higher congestion and predicted delay risk (+4 min) make Route B more reliable for this emergency.
+          </p>
+        </div>
+      </section>
+
+      <!-- Multi-Route Comparison Panel -->
+      <section class="card comparison-card">
+        <div class="card-header">
+          <h3 class="card-title">Compare Corridors</h3>
+          <span class="card-subtitle">Click any corridor card to inspect geometry on map</span>
+        </div>
+        <div class="routes-comparison-grid" id="routes-comparison-grid">
+          <!-- Dynamically populated route cards -->
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <!-- Leaflet.js -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  
+  <!-- Application Logic -->
+  <script src="script.js"></script>
+</body>
+</html>
