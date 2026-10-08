@@ -371,17 +371,20 @@ export const DashboardPage: React.FC = () => {
             isLoading={isLoading}
           />
 
-          {/* Potential Delay Hazard Alert */}
-          <HazardAlert />
+          {/* Desktop Only: 3 cards from Pic 1 + 1 card from Pic 2 */}
+          <div className="hidden lg:block space-y-5">
+            {/* Potential Delay Hazard Alert */}
+            <HazardAlert />
 
-          {/* Route Score Indicator */}
-          <RouteScoreCard score={recommendedRoute?.overallScore || 94} />
+            {/* Route Score Indicator */}
+            <RouteScoreCard score={recommendedRoute?.overallScore || 94} />
 
-          {/* Traffic Conditions Card */}
-          <TrafficStatusCard />
+            {/* Traffic Conditions Card */}
+            <TrafficStatusCard />
 
-          {/* AI Delay Prediction Card */}
-          <AIDelayPredictionCard />
+            {/* AI Delay Prediction Card */}
+            <AIDelayPredictionCard />
+          </div>
         </div>
 
         {/* Right Column (7 of 12 cols): Main Map & Route Analysis Cards */}
@@ -444,6 +447,21 @@ export const DashboardPage: React.FC = () => {
             />
           )}
         </div>
+      </div>
+
+      {/* Mobile View Only: 3 cards from First Pic + 1 card from Second Pic positioned directly above the footer */}
+      <div className="block lg:hidden space-y-5 pt-2">
+        {/* 1. Potential Delay Hazard Alert */}
+        <HazardAlert />
+
+        {/* 2. Route Score Indicator */}
+        <RouteScoreCard score={recommendedRoute?.overallScore || 94} />
+
+        {/* 3. Traffic Conditions Card */}
+        <TrafficStatusCard />
+
+        {/* 4. AI Delay Prediction Card */}
+        <AIDelayPredictionCard />
       </div>
     </div>
   );
