@@ -49,6 +49,24 @@ export function createApp(): Express {
   // Rate Limiting on API routes
   app.use('/api', apiRateLimiter);
 
+  // Root and Health endpoint for cloud platforms & uptime monitors (Render, AWS, Railway)
+  app.all(['/', '/health'], (req: Request, res: Response) => {
+    res.status(200).json({
+      service: 'RapidPath Emergency Routing API',
+      status: 'healthy',
+      version: '1.0.0',
+      timestamp: new Date().toISOString(),
+      environment: config.env,
+      endpoints: {
+        health: '/health',
+        api: '/api',
+        routes: '/api/routes',
+        auth: '/api/auth',
+        hospitals: '/api/hospitals'
+      }
+    });
+  });
+
   // Mount API router
   app.use('/api', apiRouter);
 
