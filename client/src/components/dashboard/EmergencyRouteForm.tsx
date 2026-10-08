@@ -378,7 +378,18 @@ export const EmergencyRouteForm: React.FC<EmergencyRouteFormProps> = ({
             </div>
           ) : (
             <div className="p-3 bg-[#F8FAFB] border border-[#DCE5E9] rounded-lg text-center text-xs text-[#617580]">
-              <span>Acquiring GPS to discover nearest emergency hospitals...</span>
+              {geoState.coords ? (
+                <button
+                  type="button"
+                  onClick={onRefreshHospitals}
+                  className="w-full text-xs text-[#007F86] hover:underline font-semibold flex items-center justify-center gap-1.5"
+                >
+                  <Building2 className="w-3.5 h-3.5" />
+                  <span>Click to Scan & Discover Nearest Emergency Hospitals</span>
+                </button>
+              ) : (
+                <span>Acquiring GPS to discover nearest emergency hospitals...</span>
+              )}
             </div>
           )}
         </div>
