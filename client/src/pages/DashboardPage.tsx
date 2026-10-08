@@ -9,6 +9,7 @@ import { RouteScoreCard } from '../components/dashboard/RouteScoreCard';
 import { TrafficStatusCard } from '../components/dashboard/TrafficStatusCard';
 import { AIDelayPredictionCard, HazardAlert } from '../components/dashboard/AIDelayPredictionCard';
 import { routeApi } from '../api/routeApi';
+import { planEmergencyRouteWithFallback } from '../services/clientRouteService';
 import { useLiveGeolocation } from '../hooks/useLiveGeolocation';
 import {
   RouteAnalysisResult,
@@ -197,7 +198,7 @@ export const DashboardPage: React.FC = () => {
     const originLng = values.originLng || geoState.coords?.lng || 78.4983;
 
     try {
-      const response = await routeApi.analyzeRoute({
+      const response = await planEmergencyRouteWithFallback({
         origin: {
           address: values.originAddress || geoState.address,
           lat: originLat,
@@ -223,7 +224,7 @@ export const DashboardPage: React.FC = () => {
       setSelectedRouteIndex(response.recommendedRouteIndex ?? 0);
       setLastRefreshTime(new Date());
     } catch (err: any) {
-      console.warn('Route analysis API error:', err);
+      console.warn('Route analysis error:', err);
     } finally {
       setIsLoading(false);
     }
@@ -256,17 +257,16 @@ export const DashboardPage: React.FC = () => {
       const originLat = geoState.coords?.lat || 17.4399;
       const originLng = geoState.coords?.lng || 78.4983;
 
-      routeApi
-        .analyzeRoute({
-          origin: {
-            address: geoState.address,
-            lat: originLat,
-            lng: originLng,
-          },
-          destination: activeDestinationRef.current!,
-          vehicleType: activeVehicleRef.current,
-          emergencyPriority: activePriorityRef.current,
-        })
+      planEmergencyRouteWithFallback({
+        origin: {
+          address: geoState.address,
+          lat: originLat,
+          lng: originLng,
+        },
+        destination: activeDestinationRef.current!,
+        vehicleType: activeVehicleRef.current,
+        emergencyPriority: activePriorityRef.current,
+      })
         .then((res) => {
           setResult(res);
           try {
